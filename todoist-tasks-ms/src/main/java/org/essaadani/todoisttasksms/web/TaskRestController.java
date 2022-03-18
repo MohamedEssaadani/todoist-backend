@@ -6,13 +6,13 @@ import org.essaadani.todoisttasksms.dto.TaskRequestDTO;
 import org.essaadani.todoisttasksms.dto.TaskResponseDTO;
 import org.essaadani.todoisttasksms.entities.Task;
 import org.essaadani.todoisttasksms.mappers.TaskMapper;
+import org.essaadani.todoisttasksms.models.Category;
 import org.essaadani.todoisttasksms.openfeign.CategoryRestClient;
 import org.essaadani.todoisttasksms.repository.TaskRepository;
 import org.essaadani.todoisttasksms.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
@@ -31,4 +31,5 @@ public class TaskRestController {
     public TaskResponseDTO addTask(@RequestBody TaskRequestDTO taskRequestDTO){
         return taskService.addTask(taskRequestDTO);
     }
+
 }
