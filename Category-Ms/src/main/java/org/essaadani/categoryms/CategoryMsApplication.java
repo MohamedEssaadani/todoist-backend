@@ -19,7 +19,7 @@ public class CategoryMsApplication {
     CommandLineRunner start(CategoryRepository categoryRepository){
         return args -> {
           categoryRepository.save(new Category(null, "TODO"));
-          categoryRepository.save(new Category(null, "IN PROGRESS"));
+          categoryRepository.save(new Category(null, "INPROGRESS"));
           categoryRepository.save(new Category(null, "DONE"));
         };
     }

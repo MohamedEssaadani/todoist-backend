@@ -22,6 +22,7 @@ public class Task {
 
     // category
     private Long categoryId;
+    private String categoryName;
 
     @Transient
     private Category category;

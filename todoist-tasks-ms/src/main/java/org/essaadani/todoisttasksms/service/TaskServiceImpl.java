@@ -6,6 +6,7 @@ import org.essaadani.todoisttasksms.dto.TaskRequestDTO;
 import org.essaadani.todoisttasksms.dto.TaskResponseDTO;
 import org.essaadani.todoisttasksms.entities.Task;
 import org.essaadani.todoisttasksms.mappers.TaskMapper;
+import org.essaadani.todoisttasksms.models.Category;
 import org.essaadani.todoisttasksms.openfeign.CategoryRestClient;
 import org.essaadani.todoisttasksms.repository.TaskRepository;
 import org.springframework.stereotype.Service;
@@ -14,35 +15,49 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
     TaskRepository taskRepository;
     CategoryRestClient categoryRestClient;
     TaskMapper taskMapper;
 
     @Override
-    public List<TaskResponseDTO> findAllByCategory(Long categoryId) {
-        // get all tasks by category id
-        List<Task>  tasks= taskRepository.findByCategoryId(categoryId);
-        System.out.println(categoryId);
+    public List<TaskResponseDTO> findAllByCategory(Long categoryId, String name) {
+        List<Task>  tasks = null;
 
-        // set category
-        tasks.forEach(task->{
-            System.out.println(task.getTitle());
-            // get category from category micro service
-        task.setCategory(categoryRestClient.getCustomerById(categoryId));
-        });
+        if(categoryId != null){
+            // get all tasks by category id
+            tasks = taskRepository.findByCategoryId(categoryId);
+            return tasks
+                    .stream()
+                    .map(taskMapper::taskToTaskDto)
+                    .collect(Collectors.toList());
+        }
 
-        return tasks
-                .stream()
-                .map(taskMapper::taskToTaskDto)
-                .collect(Collectors.toList());
+        if(name != null){
+            // get all tasks by category id
+            tasks = taskRepository.findByCategoryName(name);
+            return tasks
+                    .stream()
+                    .map(taskMapper::taskToTaskDto)
+                    .collect(Collectors.toList());
+        }
 
-
+        return null;
     }
 
     @Override
     public TaskResponseDTO addTask(TaskRequestDTO taskRequestDTO) {
-        return null;
+        Task task = taskMapper.taskDtoToTask(taskRequestDTO);
+        task.setCategoryName(getCategoryById(task.getCategoryId()).getName());
+        task.setCategory(getCategoryById(task.getCategoryId()));
+
+        Task savedTask = taskRepository.save(task);
+
+        return taskMapper.taskToTaskDto(savedTask);
+    }
+
+    private Category getCategoryById(Long categoryId){
+        return categoryRestClient.getCategoryById(categoryId);
     }
 }

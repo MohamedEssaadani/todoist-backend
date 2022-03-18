@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface TaskService {
     // tasks by category
-    List<TaskResponseDTO> findAllByCategory(Long categoryId);
+    List<TaskResponseDTO> findAllByCategory(Long categoryId, String name);
     // create task
     TaskResponseDTO addTask (TaskRequestDTO taskRequestDTO);
 }

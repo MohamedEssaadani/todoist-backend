@@ -26,12 +26,14 @@ public class TodoistTasksMsApplication {
         return args -> {
             Task task = new Task();
             task.setCategoryId(1L);
+            task.setCategoryName("TODO");
             task.setTitle("Drink Coffee");
             task.setTimestamp(new Date());
 
 
             Task task2 = new Task();
             task2.setCategoryId(1L);
+            task2.setCategoryName("TODO");
             task2.setTitle("Watch news");
             task2.setTimestamp(new Date());
 

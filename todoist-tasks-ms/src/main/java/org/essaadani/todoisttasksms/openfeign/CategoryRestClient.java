@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient("CATEGORY-SERVICE")
 public interface CategoryRestClient {
     @GetMapping("/categories/{id}")
-    Category getCustomerById(@PathVariable Long id);
+    Category getCategoryById(@PathVariable Long id);
 }
